@@ -1,0 +1,23 @@
+.imgBox {
+  --r: 25px; /* Radius */
+  --s: 60px; /* Corner size */
+  --left-extension: 100px; /* Extend mask on the left */
+
+  border-radius: var(--r);
+  --_m: radial-gradient(#000 70%, #0000 72%) no-repeat;
+}
+
+.bottomRight {
+  mask: 
+    right 0 bottom calc(var(--s) + var(--r)) var(--_m), /* Right side */
+    right calc(var(--s) + var(--r)) bottom 0 var(--_m), /* Bottom side */
+    radial-gradient(var(--s) at 100% 100%, #0000 99%, #000 101%) 
+      calc(-1 * var(--r)) calc(-1 * var(--r)) no-repeat,
+    conic-gradient(
+      from 90deg at calc(100% - var(--s) - 2 * var(--r))
+      calc(100% - var(--s) - 2 * var(--r)),
+      #0000 25%, #000 0
+    ),
+    radial-gradient(var(--s) at 0% 100%, #0000 99%, #000 101%) 
+      calc(var(--left-extension)) calc(100% - var(--r)) no-repeat; /* Left-side extension */
+}
