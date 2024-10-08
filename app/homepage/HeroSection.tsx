@@ -20,7 +20,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       ></div>
       <div>
         <div className=" absolute inset-0 bg-primary-background min-h-screen bg-opacity-50 flex items-center">
-          <div className="text-white w-9/12 sm:w-screen lg:m-12 md:m-8 ps-14 leading-9">
+          <div className="text-white w-9/12  lg:m-12 md:m-8 ps-14 leading-9">
             <h1 className=" md:text-6xl text-4xl font-bold mb-4">{title}</h1>
             <p className="text-xl md:text-2xl">{description}</p>
           </div>
