@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "@/components/ui/NavBar";
 import Footer from "./footer/page";
 import { menuItems } from "./data/menuData";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Analytics />
         <NavBar menuItems={menuItems} />
         <main>{children}</main>
         <Footer />
