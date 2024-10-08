@@ -9,7 +9,7 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
   return (
-    <div className="navbar sticky top-4 mx-auto z-[1] bg-white shadow font-bold rounded-xl w-11/12">
+    <div className="navbar sticky top-4 mx-auto z-[1] bg-white text-black shadow rounded-xl w-11/12">
       <div className="navbar-start">
         <div className="dropdown font-bold">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -53,16 +53,17 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
               ))}
           </ul>
         </div>
-        <a className="cursor-pointer text-xl">
+        <Link href="/" className="cursor-pointer text-xl">
           <div>
             <Image
               src="/images/Abigrilogo.png"
               alt="AbiGri logo"
               width={100}
               height={100}
+              priority={true}
             />
           </div>
-        </a>
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -86,16 +87,14 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
                     </ul>
                   </div>
                 ) : (
-                  <Link href={menu.path as string}>{menu.title}</Link>
+                  <Link href={menu.path}>{menu.title}</Link>
                 )}
               </li>
             ))}
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn btn-md hover:btn-outline bg-button text-white font-bold">
-          Book Tour
-        </a>
+        <a className="btn btn-md bg-button text-white font-bold">Book Tour</a>
       </div>
     </div>
   );
