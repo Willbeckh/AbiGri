@@ -5,6 +5,7 @@ import NavBar from "@/components/ui/NavBar";
 import Footer from "./footer/page";
 import { menuItems } from "./data/menuData";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Analytics />
+        <SpeedInsights />
         <NavBar menuItems={menuItems} />
         <main>{children}</main>
         <Footer />
