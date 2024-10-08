@@ -18,7 +18,7 @@ export const menuItems: MenuItem[] = [
   {
     title: "Services",
     subMenu: [
-      { title: "Shop", path: "" },
+      { title: "Shop", path: "/products" },
       { title: "Farm Bookings", path: "" },
       { title: "Events", path: "" },
     ],
