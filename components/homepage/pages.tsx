@@ -1,47 +1,37 @@
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/utils/supabaseClient";
 import HeroSection from "./HeroSection";
-import AboutUs from "../AboutUs";
+import AboutUsPage from "../about/page";
 
-export async function getStaticProps() {
+const HomePage = async () => {
   const { data: homepageContent, error } = await supabase
     .from("homepage_content")
-    .select("*")
-    .single();
+    .select();
 
   if (error) {
-    console.error("Error fetching homepage content", error.message);
-    return {
-      props: {
-        homepageContent: null,
-        error: error.message,
-      },
-    };
+    console.error("Failed to fetch", error.message);
+    return <p>Failed to load homepage content!</p>;
   }
-
-  return {
-    props: {
-      homepageContent,
-    },
-  };
-}
-
-export default async function HomePage(
-  homepageContent: { title: string; subtitle: string; banner_image: string },
-  error: string
-) {
-  if (error) {
-    return <p>Failed to load homepage content.</p>;
+  if (!homepageContent) {
+    return <p className="loading loading-dots">Loading.</p>;
   }
 
   return (
     <div className="">
-      <HeroSection
-        title={homepageContent.title}
-        subtitle={homepageContent.subtitle}
-        bannerImage={homepageContent.banner_image}
-      />
+      {homepageContent &&
+        homepageContent.map((content, index) => (
+          <div key={index}>
+            <HeroSection
+              title={content.title}
+              description={content.description}
+              bannerImage={content.banner_image}
+            />
+          </div>
+        ))}
+
       {/* <ProductHighlights /> */}
-      <AboutUs />
+      <AboutUsPage />
     </div>
   );
-}
+};
+
+export default HomePage;
