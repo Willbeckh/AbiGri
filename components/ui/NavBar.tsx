@@ -87,7 +87,7 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
                     </ul>
                   </div>
                 ) : (
-                  <Link href={menu.path}>{menu.title}</Link>
+                  <Link href={menu.path ?? ''}>{menu.title}</Link>
                 )}
               </li>
             ))}
