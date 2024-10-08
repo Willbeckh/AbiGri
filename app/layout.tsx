@@ -26,15 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressContentEditableWarning={true}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavBar menuItems={menuItems} />
-          {children}
-        <main>
-
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );
