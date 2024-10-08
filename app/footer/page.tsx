@@ -60,12 +60,6 @@ const Footer = () => {
       </div>
       <div className="w-full flex mt-8 pt-2 border-t-2 border-button">
         <p>home</p>
-        <p>
-          <span className="btm-nav-label">home</span>
-        </p>
-        <p>
-          <span className="btm-nav-label">home</span>
-        </p>
       </div>
     </div>
   );
