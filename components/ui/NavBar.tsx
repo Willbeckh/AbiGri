@@ -103,7 +103,7 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
         <Button
           text="Book Tour"
           onClick={() => setShowModal(true)}
-          className="bg-button hover:bg-primary-background"
+          className="btn-md bg-button hover:bg-primary-background"
         />
         <Modal onClose={() => setShowModal(false)} visible={showModal} />
       </div>
