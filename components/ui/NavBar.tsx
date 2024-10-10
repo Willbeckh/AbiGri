@@ -1,13 +1,19 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { MenuItem } from "@/app/data/menuData";
 import Image from "next/image";
 import Link from "next/link";
+import Button from "./Button";
+import Modal from "./Modal";
 
 interface NavBarProps {
   menuItems: MenuItem[];
 }
 
 const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
+  // handling modal
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="navbar sticky top-4 mx-auto z-[1] bg-white text-black shadow rounded-xl w-11/12">
       <div className="navbar-start">
@@ -87,14 +93,19 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
                     </ul>
                   </div>
                 ) : (
-                  <Link href={menu.path ?? ''}>{menu.title}</Link>
+                  <Link href={menu.path ?? ""}>{menu.title}</Link>
                 )}
               </li>
             ))}
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn btn-md bg-button text-white font-bold">Book Tour</a>
+        <Button
+          text="Book Tour"
+          onClick={() => setShowModal(true)}
+          className="bg-button hover:bg-primary-background"
+        />
+        <Modal onClose={() => setShowModal(false)} visible={showModal} />
       </div>
     </div>
   );
