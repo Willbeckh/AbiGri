@@ -101,9 +101,7 @@ const Footer = () => {
               </button>
             </div>
           </div>
-          <div className="mt-5">
-            <p>Follow us on socials: </p>
-          </div>
+          <div className="mt-5">{/* <p>Follow us on socials: </p> */}</div>
         </div>
       </div>
 
