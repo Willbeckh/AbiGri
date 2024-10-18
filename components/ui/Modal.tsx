@@ -19,9 +19,9 @@ const Modal: React.FC<ModalProps> = ({ visible, onClose, children }) => {
       onClick={handleOnClose}
       className="fixed inset-0 bg-black bg-opacity-30  backdrop-blur-sm flex justify-center items-center"
     >
-      <div className="bg-white p-4 rounded ">
+      <div className="bg-white p-4 rounded relative">
         <button
-          className="btn btn-sm btn-circle float-right"
+          className="btn btn-sm btn-circle text-red-500 absolute top-1 right-2"
           id="container"
           onClick={handleOnClose}
         >
