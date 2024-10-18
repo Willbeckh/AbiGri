@@ -6,14 +6,16 @@ interface DynamicButtonProps {
   type?: "button" | "submit" | "reset";
   className?: string;
   disabled?: boolean;
+  children?: React.ReactNode;
 }
 
 const Button: React.FC<DynamicButtonProps> = ({
   text,
   onClick,
-  type = "button",
+  type,
   className = "",
   disabled = false,
+  children,
 }) => {
   return (
     <button
@@ -25,6 +27,7 @@ const Button: React.FC<DynamicButtonProps> = ({
       disabled={disabled}
     >
       {text}
+      {children}
     </button>
   );
 };
