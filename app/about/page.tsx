@@ -10,6 +10,7 @@ interface AboutContent {
   title: string;
   about_desc: string;
   about_image: string;
+  about_summary: string;
   banner_image: string;
   accordion_content?: AccordionContent[];
 }
@@ -31,6 +32,7 @@ const AboutUsPage = async () => {
       </div>
     );
   }
+
   return (
     <div>
       {aboutContent &&
@@ -40,6 +42,7 @@ const AboutUsPage = async () => {
               title={content.title}
               aboutDesc={content.about_desc}
               aboutImg={content.about_image}
+              aboutSummary={content.about_summary}
               bannerImg={content.banner_image}
               accordionContent={content.accordion_content}
             />
