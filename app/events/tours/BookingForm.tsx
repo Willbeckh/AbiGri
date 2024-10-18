@@ -1,49 +1,167 @@
-import React from "react";
+"use client";
+
 import Button from "@/components/ui/Button";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { bookingFormSchema } from "@/utils/validation/bookingForm";
+import {
+  HiUser,
+  HiCalendar,
+  HiPhone,
+  HiAtSymbol,
+  HiUserGroup,
+} from "react-icons/hi";
 
 const BookingForm = () => {
+  // init useForm hook with zod resolver
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(bookingFormSchema),
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmitForm = (data: any) => {
+    console.log("Form data: ", data);
+    reset();
+  };
+
   return (
     <div>
-      <h1 className="font-semibold text-center text-xl text-gray-700 border-b-2 border-button mb-4">
-        Book Farm Tour
+      <h1 className="font-semibold text-center text-xl text-gray-700 border-b-2 border-button mb-2 pb-4">
+        Book Farm Demostration Tour
       </h1>
-      <div className="flex flex-col justify-center lg:flex-row gap-2 p-2">
-        <div>
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-4 w-4 opacity-70"
-            >
-              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-            </svg>
-            <input type="text" placeholder="Name" />
-          </label>
-        </div>
+      <form onSubmit={handleSubmit(onSubmitForm)}>
+        <div className="grid grid-cols-1  lg:grid-cols-2 gap-2 gap-y-1 p-4">
+          {/* name */}
+          <div>
+            <label htmlFor="name" className=" form-control">
+              <div className="join flex ">
+                <div className="join-item content-center bg-base-300 px-1">
+                  <HiUser size={20} className="" />
+                </div>
 
-        <div>
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-4 w-4 opacity-70"
-            >
-              <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-              <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-            </svg>
-            <input type="text" placeholder="email@example.com" />
+                <input
+                  type="text"
+                  id="name"
+                  className="input input-bordered input-sm join-item"
+                  {...register("name")}
+                  placeholder="Name"
+                  required
+                />
+              </div>
+
+              <div className="label">
+                <span className="text-red-500 label-text-alt">
+                  {errors.name && errors.name.message?.toString()}
+                </span>
+              </div>
+            </label>
+          </div>
+
+          {/* email input */}
+          <div>
+            <label htmlFor="email" className="form-control">
+              <div className="flex join">
+                <div className="join-item content-center bg-base-300 px-1">
+                  <HiAtSymbol size={20} className="" />
+                </div>
+
+                <input
+                  type="email"
+                  id="email"
+                  {...register("email")}
+                  placeholder="email@example.com"
+                  required
+                  className="input input-sm input-bordered join-item"
+                />
+              </div>
+
+              <div className="label">
+                <span className="text-red-500 text-xs label-text-alt">
+                  {errors.email && errors.email.message?.toString()}
+                </span>
+              </div>
+            </label>
+          </div>
+
+          {/* phone */}
+          <div>
+            <label htmlFor="phone" className="">
+              <div className="join">
+                <div className="join-item content-center bg-base-300 px-1">
+                  <HiPhone size={20} className="" />
+                </div>
+                <input
+                  id="phone"
+                  {...register("phone")}
+                  placeholder="phone number"
+                  className="input input-bordered input-sm join-item"
+                />
+              </div>
+            </label>
+            <div className="label">
+              <span className="text-red-500 label-text-alt text-xs">
+                {errors.phone && errors.phone.message?.toString()}
+              </span>
+            </div>
+          </div>
+
+          {/* guests */}
+          <div>
+            <label htmlFor="guest" className="">
+              <div className="join">
+                <div className="join-item content-center bg-base-300 px-1">
+                  <HiUserGroup size={20} className="" />
+                </div>
+                <input
+                  id="guest"
+                  type="number"
+                  {...register("numberOfGuests", { valueAsNumber: true })}
+                  placeholder="Guest number"
+                  className="input input-bordered input-sm join-item"
+                />
+              </div>
+            </label>
+            <div className="label">
+              <span className="text-red-500 label-text-alt text-xs">
+                {errors.numberOfGuests &&
+                  errors.numberOfGuests.message?.toString()}
+              </span>
+            </div>
+          </div>
+
+          {/* date */}
+          <label htmlFor="date" className="cursor-pointer">
+            <div className="join">
+              <div className="join-item content-center bg-base-300 px-1">
+                <HiCalendar size={20} className="" />
+              </div>
+              <input
+                type="date"
+                id="date"
+                {...register("date")}
+                className="input input-sm input-bordered join-item"
+              />
+            </div>
+            <div className="label">
+              <span className="text-red-500 label-text-alt text-xs">
+                {errors.date && errors.date.message?.toString()}
+              </span>
+            </div>
           </label>
         </div>
-      </div>
-      <div className="text-center mt-12">
-        <Button
-          type="submit"
-          text="Book Tour"
-          className="btn-md btn-outline lg:btn-wide btn-block btn-info"
-        />
-      </div>
+        <div className="text-center">
+          <Button
+            type="submit"
+            text="Book Tour"
+            className="btn-md btn-block  bg-button hover:btn-outline cursor-pointer hover:btn-success"
+          />
+        </div>
+      </form>
     </div>
   );
 };

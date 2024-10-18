@@ -7,20 +7,19 @@ export interface MenuItem {
 
 export const menuItems: MenuItem[] = [
   { title: "Home", path: "/" },
+  { title: "Shop", path: "/products" },
   {
-    title: "Who We Are",
-    subMenu: [
-      { title: "About Us", path: "" },
-      { title: "Clients", path: "" },
-    ],
+    title: "About Us",
+    path: "/about",
   },
 
   {
     title: "Services",
     subMenu: [
-      { title: "Shop", path: "/products" },
-      { title: "Farm Bookings", path: "" },
-      { title: "Events", path: "" },
+      { title: "Soil Health Asessments", path: "" },
+      { title: "Crop Health Asessments", path: "" },
+      { title: "Farmer Training", path: "" },
+      { title: "Farm Demonstrations", path: "" },
     ],
   },
   { title: "Contacts", path: "/contacts" },

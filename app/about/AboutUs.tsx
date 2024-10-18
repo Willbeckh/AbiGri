@@ -9,6 +9,7 @@ interface AccordionContent {
 interface aboutProps {
   title: string;
   aboutDesc: string;
+  aboutSummary: string;
   aboutImg: string;
   bannerImg: string;
   accordionContent?: AccordionContent[];
@@ -17,6 +18,7 @@ interface aboutProps {
 const AboutUs: React.FC<aboutProps> = ({
   title,
   aboutDesc,
+  aboutSummary,
   aboutImg,
   bannerImg,
   accordionContent,
@@ -47,19 +49,14 @@ const AboutUs: React.FC<aboutProps> = ({
           <div className="sm:w-full rounded-md mx-auto">
             <Image
               src={bannerImg}
-              alt="Unlocking agricultural potential"
+              alt="Aagricultural potential"
               width={600}
               height={200}
               style={{ borderRadius: "10px" }}
             />
           </div>
-          <h3 className="w-full text-green-500 my-2">Why Choose Us?</h3>
-          <p className="text-xs">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel
-            ducimus, dolorem blanditiis illum officiis consequatur sunt
-            exercitationem nobis et dolore numquam at quod vitae impedit veniam
-            quae expedita deleniti repellendus?
-          </p>
+          <h3 className="w-full text-green-500 my-2">Why AbiGri?</h3>
+          <p className="text-sm">{aboutSummary}</p>
           {accordionContent && (
             <div>
               {accordionContent.map((content, index) => (
