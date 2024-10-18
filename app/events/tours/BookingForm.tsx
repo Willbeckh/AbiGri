@@ -97,7 +97,7 @@ const BookingForm = () => {
                 </div>
                 <input
                   id="phone"
-                  {...(register("phone"))}
+                  {...register("phone")}
                   placeholder="phone number"
                   className="input input-bordered input-sm join-item"
                 />
@@ -158,7 +158,7 @@ const BookingForm = () => {
           <Button
             type="submit"
             text="Book Tour"
-            className="btn-md btn-block  bg-button hover:btn-outline hover:btn-success"
+            className="btn-md btn-block  bg-button hover:btn-outline cursor-pointer hover:btn-success"
           />
         </div>
       </form>
