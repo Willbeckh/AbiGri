@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
 import Modal from "./Modal";
+import ComingSoon from "@/components/ui/ComingSoon";
 
 interface NavBarProps {
   menuItems: MenuItem[];
@@ -71,7 +72,7 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
           </div>
         </Link>
       </div>
-      <div className="navbar-center hidden lg:flex">
+      <div className="navbar-center hidden lg:flex font-semibold">
         <ul className="menu menu-horizontal px-1">
           {menuItems &&
             menuItems.map((menu, index) => (
@@ -79,7 +80,7 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
                 {menu.subMenu ? (
                   <div className="dropdown dropdown-hover dropdown-bottom">
                     <div tabIndex={0} role="button">
-                      <span>{menu.title}</span>
+                      <span>{menu.title} &#11206;</span>
                     </div>
                     <ul
                       tabIndex={0}
@@ -105,7 +106,9 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
           onClick={() => setShowModal(true)}
           className="btn-md bg-button hover:bg-primary-background"
         />
-        <Modal onClose={() => setShowModal(false)} visible={showModal} />
+        <Modal onClose={() => setShowModal(false)} visible={showModal}>
+          <ComingSoon />
+        </Modal>
       </div>
     </div>
   );
