@@ -18,6 +18,7 @@ const BookingForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: zodResolver(bookingFormSchema),
   });
@@ -25,6 +26,7 @@ const BookingForm = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmitForm = (data: any) => {
     console.log("Form data: ", data);
+    reset();
   };
 
   return (
