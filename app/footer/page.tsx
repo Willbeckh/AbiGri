@@ -85,12 +85,12 @@ const Footer = () => {
         {/* Third Column */}
         <div className="lg:w-1/3 w-full">
           <div>
-            <h2 className="text-green-500 text-2xl mb-4">
-              Join Our Newsletter.
+            <h2 className="text-green-500 text-xl mb-4">
+              Subscribe to AbiGri Updates.
             </h2>
           </div>
-          <div className="mb-4">
-            <div className="join text-black">
+          <div className="mb-4 bordered border-red-500 border-solid">
+            <form className="join text-black">
               <input
                 type="email"
                 className="input lg:input-sm join-item w-full lg:w-4/5"
@@ -99,7 +99,7 @@ const Footer = () => {
               <button className="btn lg:btn-sm bg-button join-item rounded-r-full">
                 Subscribe
               </button>
-            </div>
+            </form>
           </div>
           <div className="mt-5">{/* <p>Follow us on socials: </p> */}</div>
         </div>
