@@ -7,16 +7,28 @@ export const bookingFormSchema = z.object({
   phone: z
     .string()
     .refine(isValidPhoneNumber, "Please include country code in number.")
-    .transform((value) => parsePhoneNumber(value).number.toString()),
-  date: z
+    .transform((value, ctx) => {
+      const phoneNumber = parsePhoneNumber(value.toString(), {
+        defaultCountry: "RW",
+      });
+
+      if (!phoneNumber?.isValid()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Invalid phone number",
+        });
+        return z.NEVER;
+      }
+      return phoneNumber.formatInternational();
+    }),
+
+  date: z.coerce
     .date({
       required_error: "Please select a valid date.",
       invalid_type_error: "Invalid date format!",
     })
-    .min(
-      new Date(),
-      "Hold on Time traveller. Dates can only be in present or future."
-    ),
+    .min(new Date(), "Dates can only be in present or future."),
+
   numberOfGuests: z
     .number()
     .min(1, "Atleast 1 guest is required.")
