@@ -6,7 +6,7 @@ interface ModalProps {
   children?: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ visible, onClose, children }) => {
+export const Modal: React.FC<ModalProps> = ({ visible, onClose, children }) => {
   if (!visible) return null;
 
   const handleOnClose = (e: React.MouseEvent<HTMLElement>) => {
@@ -32,5 +32,3 @@ const Modal: React.FC<ModalProps> = ({ visible, onClose, children }) => {
     </div>
   );
 };
-
-export default Modal;
