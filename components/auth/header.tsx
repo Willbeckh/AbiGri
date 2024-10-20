@@ -16,7 +16,7 @@ export const Header = ({ label }: HeaderProps) => {
       <h1
         className={cn("text-3xl font-semibold text-gray-900 ", font.className)}
       >
-        Auth
+        Join AbiGri
       </h1>
       <div className="w-1/2 h-1 bg-green-500 rounded-full mb-2"></div>
 
