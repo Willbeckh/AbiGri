@@ -36,7 +36,7 @@ export default function RootLayout({
         <Analytics />
         <SpeedInsights />
         <NavBar menuItems={menuItems} />
-        <main>{children}</main>
+        <main className="-mt-[74px] ">{children}</main>
         <Footer />
       </body>
     </html>
