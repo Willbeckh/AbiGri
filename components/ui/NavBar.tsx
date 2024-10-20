@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import { MenuItem } from "@/app/data/menuData";
 import Image from "next/image";
 import Link from "next/link";
-import Button from "./Button";
-import Modal from "./Modal";
-import ComingSoon from "@/components/ui/ComingSoon";
+import { Modal } from "@/components/ui/Modal";
+import { ComingSoon } from "@/components/ui/ComingSoon";
+import LoginButton from "@/components/auth/login-button";
+import { Button } from "@/components/ui/button";
 
 interface NavBarProps {
   menuItems: MenuItem[];
@@ -100,15 +101,23 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
             ))}
         </ul>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end gap-2">
         <Button
-          text="Book Tour"
+          variant="outline"
           onClick={() => setShowModal(true)}
-          className="btn-md bg-button hover:bg-primary-background"
-        />
+          className="lg:btn-md sm:btn-sm btn-ghost outline outline-1 outline-green-500 hover:bg-button hover:outline-button text-green-500 hover:text-white"
+        >
+          Book Farm Tour
+        </Button>
         <Modal onClose={() => setShowModal(false)} visible={showModal}>
           <ComingSoon />
         </Modal>
+
+        <LoginButton>
+          <Button className="lg:btn-md sm:btn-sm bg-button hover:bg-button text-white">
+            SignIn
+          </Button>
+        </LoginButton>
       </div>
     </div>
   );
