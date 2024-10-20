@@ -1,6 +1,6 @@
-import Button from "./Button";
+import { Button } from "@/components/ui/button";
 
-const ComingSoon = () => {
+export const ComingSoon = () => {
   return (
     <div>
       <div className="flex flex-col items-center justify-center bg-gray-100 text-center shadow-lg p-2 mt-6 mb-2 pb-4">
@@ -12,15 +12,14 @@ const ComingSoon = () => {
         <p className="text-lg text-gray-500">Stay tuned for updates.</p>
 
         <Button
-          text="Notify Me"
           className="btn-wide btn-outline btn-info hover:bg-blue-600 mt-6 font-semibold"
           onClick={() => {
             window.location.href = "/contacts";
           }}
-        />
+        >
+          Notify Me
+        </Button>
       </div>
     </div>
   );
 };
-
-export default ComingSoon;
