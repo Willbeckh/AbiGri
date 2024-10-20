@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
-import styles from "./HeroSection.module.css";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface HeroSectionProps {
   title: string;
@@ -13,9 +15,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   bannerImage,
 }) => {
   return (
-    <div className={styles.container}>
+    <>
       <div
-        className="w-full min-h-screen bg-cover bg-center"
+        className="w-full min-h-screen bg-cover bg-center "
         style={{ marginTop: "-74px", backgroundImage: `url(${bannerImage})` }}
       ></div>
       <div>
@@ -25,15 +27,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               {title}
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl">{description}</p>
-          </div>
-          <div className="absolute bottom-8 right-6 sm:right-8 md:right-12">
-            <button className="btn bg-button outline-none text-lg sm:text-xl md:text-2xl text-white">
-              Buy or Rent
-            </button>
+            <div className="mt-8">
+              <Button
+                className="btn-md bg-button hover:bg-primary-background text-lg sm:text-xl md:text-2xl text-white"
+                // onClick={handleRedirectToProducts}
+              >
+                Explore Gadget Shop
+                <Link href="/products" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
