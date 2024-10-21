@@ -8,8 +8,6 @@ datasource db {
 }
 
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model about_content {
   id                BigInt              @id @default(autoincrement())
   created_at        DateTime            @default(now()) @db.Timestamptz(6)
@@ -22,7 +20,6 @@ model about_content {
   accordion_content accordion_content[]
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model accordion_content {
   id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at    DateTime       @default(now()) @db.Timestamptz(6)
@@ -33,16 +30,6 @@ model accordion_content {
   about_content about_content? @relation(fields: [about_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model homepage_content {
-  id           BigInt    @id @default(autoincrement())
-  title        String
-  description  String?
-  banner_image String?
-  created_at   DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at   DateTime? @default(now()) @db.Timestamptz(6)
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model product_categories {
   id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at DateTime  @default(now()) @db.Timestamptz(6)
@@ -52,7 +39,6 @@ model product_categories {
   products   products? @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model products {
   created_at         DateTime             @default(now()) @db.Timestamptz(6)
   updated_at         DateTime?            @default(now()) @db.Timestamptz(6)
@@ -66,7 +52,6 @@ model products {
   product_categories product_categories[]
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model tour_bookings {
   id           Int       @id @default(autoincrement())
   name         String
@@ -77,18 +62,34 @@ model tour_bookings {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  name String?
-  phone String?
-  role Role @default(USER)
-  profile Profile?
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  phone         String?
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
 }
 
-model Profile {
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id])
-  userId Int @unique
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
 }
 
 enum Role {
