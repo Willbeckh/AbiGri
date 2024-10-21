@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model about_content {
+  id                BigInt              @id @default(autoincrement())
+  created_at        DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime?           @db.Timestamp(6)
+  title             String?
+  about_desc        String?             @db.VarChar
+  about_image       String?
+  banner_image      String?
+  about_summary     String?
+  accordion_content accordion_content[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model accordion_content {
+  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at    DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime?      @default(now()) @db.Timestamptz(6)
+  title         String?
+  description   String?
+  about_id      BigInt?
+  about_content about_content? @relation(fields: [about_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model homepage_content {
+  id           BigInt    @id @default(autoincrement())
+  title        String
+  description  String?
+  banner_image String?
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model product_categories {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  name       String?
+  product_id String?   @db.Uuid
+  products   products? @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model products {
+  created_at         DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  description        String?
+  price              Float?
+  featured           Boolean?
+  image              String?
+  category           String?
+  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title              String?
+  product_categories product_categories[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model tour_bookings {
+  id           Int       @id @default(autoincrement())
+  name         String
+  email        String    @db.VarChar
+  tourdate     DateTime  @db.Date
+  participants Int?      @default(1)
+  created_at   DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  name String?
+  phone String?
+  role Role @default(USER)
+  profile Profile?
+}
+
+model Profile {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique
+}
+
+enum Role {
+  USER
+  ADMIN
+}
