@@ -102,11 +102,7 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
         </ul>
       </div>
       <div className="navbar-end gap-2">
-        <Button
-          variant="outline"
-          onClick={() => setShowModal(true)}
-          className="lg:btn-md sm:btn-sm btn-ghost outline outline-1 outline-green-500 hover:bg-button hover:outline-button text-green-500 hover:text-white"
-        >
+        <Button variant="outline" onClick={() => setShowModal(true)}>
           Book Farm Tour
         </Button>
         <Modal onClose={() => setShowModal(false)} visible={showModal}>
@@ -114,9 +110,7 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
         </Modal>
 
         <LoginButton>
-          <Button className="lg:btn-md sm:btn-sm bg-button hover:bg-button text-white">
-            SignIn
-          </Button>
+          <Button className="bg-green-500 hover:bg-green-600">SignIn</Button>
         </LoginButton>
       </div>
     </div>
