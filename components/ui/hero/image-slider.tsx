@@ -17,7 +17,7 @@ interface ImageSliderProps {
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
-  const plugin = useRef(Autoplay({ delay: 6000, stopOnInteraction: true }));
+  const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
 
   return (
     <div>
