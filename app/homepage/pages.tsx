@@ -1,7 +1,7 @@
 import { supabase } from "@/utils/supabaseClient";
 import HeroSection from "@/components/ui/hero/HeroSection";
-// import AboutUsPage from "../about/page";
-// import ProductHighlights from "../products/ProductsHightLight";
+import { AboutHeroSection } from "../about/aboutDataLayer";
+import ProductHighlights from "../products/ProductsHightLight";
 
 const HomePage = async () => {
   try {
@@ -40,9 +40,13 @@ const HomePage = async () => {
     }));
 
     return (
-      <div className="flex justify-center items-center min-h-screen bg-green-50">
-        <HeroSection images={images} />
-      </div>
+      <>
+        <div className="flex justify-center items-center min-h-screen bg-green-50">
+          <HeroSection images={images} />
+        </div>
+        <AboutHeroSection />
+        <ProductHighlights />
+      </>
     );
   } catch (err) {
     // Catch unexpected errors
