@@ -78,6 +78,7 @@ const Footer = () => {
               alt="white logo"
               width={200}
               height={200}
+              loading="lazy"
             />
           </div>
         </div>
