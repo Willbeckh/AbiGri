@@ -20,8 +20,6 @@ const ProductHighlights = async () => {
     );
   }
 
-  console.log("featuredProducts: ", featuredProducts);
-
   return (
     <div className="flex flex-col min-h-screen p-8">
       <h1 className=" text-green-500  text-3xl lg:mt-20 mt-12 mb-4 lg:ps-6 border-b-2 border-green-400 pb-4">
@@ -38,6 +36,7 @@ const ProductHighlights = async () => {
                     alt={product.title}
                     width={400}
                     height={400}
+                    loading="lazy"
                   />
                 </figure>
                 <div className="card-body">
@@ -53,3 +52,4 @@ const ProductHighlights = async () => {
 };
 
 export default ProductHighlights;
+
