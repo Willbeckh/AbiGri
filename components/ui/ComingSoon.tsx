@@ -12,7 +12,7 @@ export const ComingSoon = () => {
         <p className="text-lg text-gray-500">Stay tuned for updates.</p>
 
         <Button
-          className="btn-wide btn-outline btn-info hover:bg-blue-600 mt-6 font-semibold"
+          className="btn-wide  hover:bg-emerald-600 bg-emerald-400 mt-6 font-semibold"
           onClick={() => {
             window.location.href = "/contacts";
           }}
