@@ -2,8 +2,8 @@ import React from "react";
 
 const AboutUsPage = async () => {
   return (
-    <section className="flex justify-center items-center min-h-screen bg-green-50 mt-20  py-12 px-6 sm:px-12 lg:px-24">
-      <div className="max-w-7xl mx-auto">
+    <div className="flex justify-center items-center min-h-screen  bg-green-50 py-12 px-6 sm:px-12 lg:px-24">
+      <div className="max-w-7xl mx-auto mt-20">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             About AbiGri Solutions
@@ -118,7 +118,7 @@ const AboutUsPage = async () => {
           </button>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
