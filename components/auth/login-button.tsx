@@ -15,6 +15,9 @@ const LoginButton = ({
 }: LoginButtonProps) => {
   const router = useRouter();
   const onClick = () => {
+    if (asChild) {
+      return {children};
+    }
     router.push("/auth/login");
   };
 
