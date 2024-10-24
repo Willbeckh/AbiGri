@@ -11,7 +11,9 @@ interface BackButtonProps {
 export const BackButton = ({ label, href }: BackButtonProps) => {
   return (
     <Button variant="link" className="font-normal w-full" asChild>
-      <Link href={href}>{label}</Link>
+      <Link href={href} prefetch={true}>
+        {label}
+      </Link>
     </Button>
   );
 };
