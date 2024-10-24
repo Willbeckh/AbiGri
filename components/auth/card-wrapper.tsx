@@ -26,13 +26,13 @@ export const CardWrapper = ({
   showSocial,
 }: CardWrapperProps) => {
   return (
-    <Card className="w-[400px] h-auto shadow-md mt-20">
+    <Card className="md:w-[400px] w-[20em] h-auto shadow-md mt-20">
       <CardHeader>
         <Header label={headerLabel} />
       </CardHeader>
       <CardContent>{children}</CardContent>
 
-      <div className="divider w-4/5 mx-auto text-xs">OR</div>
+      <div className="divider w-4/5 mx-auto text-xs">Or sign in with</div>
 
       {showSocial && (
         <CardFooter>
