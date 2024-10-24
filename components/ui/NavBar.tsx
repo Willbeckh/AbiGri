@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import { MenuItem } from "@/app/data/menuData";
 import Image from "next/image";
 import Link from "next/link";
-import Button from "./Button";
-import Modal from "./Modal";
-import ComingSoon from "@/components/ui/ComingSoon";
+import { Modal } from "@/components/ui/Modal";
+import { ComingSoon } from "@/components/ui/ComingSoon";
+import LoginButton from "@/components/auth/login-button";
+import { Button } from "@/components/ui/button";
 
 interface NavBarProps {
   menuItems: MenuItem[];
@@ -48,13 +49,17 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
                       <ul className="p-2">
                         {item.subMenu.map((subItem, subIndex) => (
                           <li key={subIndex}>
-                            <Link href={subItem.path}>{subItem.title}</Link>
+                            <Link href={subItem.path} prefetch={true}>
+                              {subItem.title}
+                            </Link>
                           </li>
                         ))}
                       </ul>
                     </>
                   ) : (
-                    <Link href={item.path as string}>{item.title}</Link>
+                    <Link href={item.path as string} prefetch={true}>
+                      {item.title}
+                    </Link>
                   )}
                 </li>
               ))}
@@ -88,7 +93,9 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
                     >
                       {menu.subMenu.map((subMenu, subIndex) => (
                         <li key={subIndex}>
-                          <Link href={subMenu.path}>{subMenu.title}</Link>
+                          <Link href={subMenu.path} prefetch={true}>
+                            {subMenu.title}
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -100,15 +107,17 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
             ))}
         </ul>
       </div>
-      <div className="navbar-end">
-        <Button
-          text="Book Tour"
-          onClick={() => setShowModal(true)}
-          className="btn-md bg-button hover:bg-primary-background"
-        />
+      <div className="navbar-end gap-2">
+        <Button variant="outline" onClick={() => setShowModal(true)}>
+          Book Farm Tour
+        </Button>
         <Modal onClose={() => setShowModal(false)} visible={showModal}>
           <ComingSoon />
         </Modal>
+
+        <LoginButton>
+          <Button className="bg-green-500 hover:bg-green-600">SignIn</Button>
+        </LoginButton>
       </div>
     </div>
   );

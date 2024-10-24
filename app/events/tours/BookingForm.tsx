@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/ui/Button";
+import {Button} from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bookingFormSchema } from "@/utils/validation/bookingForm";
@@ -157,9 +157,10 @@ const BookingForm = () => {
         <div className="text-center">
           <Button
             type="submit"
-            text="Book Tour"
             className="btn-md btn-block  bg-button hover:btn-outline cursor-pointer hover:btn-success"
-          />
+          >
+            Book Tour
+          </Button>
         </div>
       </form>
     </div>

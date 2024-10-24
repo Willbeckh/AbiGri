@@ -1,38 +1,64 @@
 import { supabase } from "@/utils/supabaseClient";
-import HeroSection from "./HeroSection";
-import AboutUsPage from "../about/page";
+import HeroSection from "@/components/ui/hero/HeroSection";
+import { AboutHeroSection } from "../about/aboutDataLayer";
 import ProductHighlights from "../products/ProductsHightLight";
 
 const HomePage = async () => {
-  const { data: homepageContent, error } = await supabase
-    .from("homepage_content")
-    .select();
+  try {
+    const { data: homepageSliderImg, error } = await supabase
+      .from("homepage_images")
+      .select();
 
-  if (error) {
-    console.error("Failed to fetch", error.message);
-    return <p>Failed to load homepage content!</p>;
+    // If error occurs during the fetch, output err msg
+    if (error) {
+      console.error("Error fetching homepage images:", error);
+      return (
+        <div className="flex justify-center items-center min-h-screen">
+          <p className="text-red-500">
+            Error loading homepage images. Please try again later.
+          </p>
+        </div>
+      );
+    }
+
+    // Handle the case where data is empty or null
+    if (!homepageSliderImg || homepageSliderImg.length === 0) {
+      console.warn("No images found for the homepage slider.");
+      return (
+        <div className="flex justify-center items-center min-h-screen">
+          <p className="text-yellow-500">
+            No homepage images available at the moment.
+          </p>
+        </div>
+      );
+    }
+
+    // map images
+    const images = homepageSliderImg.map((content) => ({
+      banner_image: content.banner_image,
+      alt: content.alt || "Image description",
+    }));
+
+    return (
+      <>
+        <div className="flex justify-center items-center min-h-screen bg-green-50">
+          <HeroSection images={images} />
+        </div>
+        <AboutHeroSection />
+        <ProductHighlights />
+      </>
+    );
+  } catch (err) {
+    // Catch unexpected errors
+    console.error("Unexpected error loading homepage:", err);
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-red-500">
+          An unexpected error occurred. Please try again later.
+        </p>
+      </div>
+    );
   }
-  if (!homepageContent) {
-    return <p className="loading loading-dots">Loading.</p>;
-  }
-
-  return (
-    <div className="">
-      {homepageContent &&
-        homepageContent.map((content, index) => (
-          <div key={index}>
-            <HeroSection
-              title={content.title}
-              description={content.description}
-              bannerImage={content.banner_image}
-            />
-          </div>
-        ))}
-
-      <AboutUsPage />
-      <ProductHighlights />
-    </div>
-  );
 };
 
 export default HomePage;

@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model about_content {
+  id                BigInt              @id @default(autoincrement())
+  created_at        DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime?           @db.Timestamp(6)
+  title             String?
+  about_desc        String?             @db.VarChar
+  about_image       String?
+  banner_image      String?
+  about_summary     String?
+  accordion_content accordion_content[]
+}
+
+model accordion_content {
+  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at    DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime?      @default(now()) @db.Timestamptz(6)
+  title         String?
+  description   String?
+  about_id      BigInt?
+  about_content about_content? @relation(fields: [about_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model product_categories {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  name       String?
+  product_id String?   @db.Uuid
+  products   products? @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model products {
+  created_at         DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  description        String?
+  price              Float?
+  featured           Boolean?
+  image              String?
+  category           String?
+  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title              String?
+  product_categories product_categories[]
+}
+
+model tour_bookings {
+  id           Int       @id @default(autoincrement())
+  name         String
+  email        String    @db.VarChar
+  tourdate     DateTime  @db.Date
+  participants Int?      @default(1)
+  created_at   DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  phone         String?
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
