@@ -22,5 +22,5 @@ export const menuItems: MenuItem[] = [
       { title: "Farm Demonstrations", path: "" },
     ],
   },
-  { title: "Contacts", path: "/contacts" },
+  { title: "Contacts", path: "/contact" },
 ];
