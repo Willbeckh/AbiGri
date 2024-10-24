@@ -49,13 +49,17 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
                       <ul className="p-2">
                         {item.subMenu.map((subItem, subIndex) => (
                           <li key={subIndex}>
-                            <Link href={subItem.path}>{subItem.title}</Link>
+                            <Link href={subItem.path} prefetch={true}>
+                              {subItem.title}
+                            </Link>
                           </li>
                         ))}
                       </ul>
                     </>
                   ) : (
-                    <Link href={item.path as string}>{item.title}</Link>
+                    <Link href={item.path as string} prefetch={true}>
+                      {item.title}
+                    </Link>
                   )}
                 </li>
               ))}
@@ -89,7 +93,9 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
                     >
                       {menu.subMenu.map((subMenu, subIndex) => (
                         <li key={subIndex}>
-                          <Link href={subMenu.path}>{subMenu.title}</Link>
+                          <Link href={subMenu.path} prefetch={true}>
+                            {subMenu.title}
+                          </Link>
                         </li>
                       ))}
                     </ul>
