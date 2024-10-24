@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ContactSchema } from "@/schemas/contact";
 import {
@@ -15,8 +15,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { FormSuccess } from "@/components/form-success";
+import { FormError } from "@/components/form-error";
+import { contactSubmit } from "@/actions/contact";
 
 export default function ContactForm() {
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof ContactSchema>>({
     resolver: zodResolver(ContactSchema),
     defaultValues: {
@@ -29,10 +36,18 @@ export default function ContactForm() {
   });
 
   async function onSubmit(values: z.infer<typeof ContactSchema>) {
-    // const values = form.getValues();
-    console.log(values);
+    startTransition(() => {
+      contactSubmit(values).then((data) => {
+        setError(data.error);
+        setSuccess(data.success);
+      });
+    });
 
     form.reset();
+    setTimeout(() => {
+      setSuccess("");
+      setError("");
+    }, 5000);
   }
 
   return (
@@ -114,9 +129,11 @@ export default function ContactForm() {
               </FormItem>
             )}
           />
-
-          <Button type="submit" className="w-full">
-            Send Message
+          <FormSuccess message={success} />
+          <FormError message={error} />
+          <Button type="submit" disabled={isPending} className="w-full">
+            {isPending && <span className="loading loading-ring"></span>}
+            {isPending ? "Sending..." : "Send Message"}
           </Button>
         </form>
       </Form>
