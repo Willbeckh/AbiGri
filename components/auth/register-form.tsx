@@ -39,6 +39,10 @@ export const RegisterForm = () => {
       register(values).then((data) => {
         setError(data.error);
         setSuccess(data.success);
+
+        if (data.success) {
+          window.location.href = "/auth/login";
+        }
       });
     });
     form.reset();
