@@ -35,16 +35,25 @@ export const LoginForm = () => {
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(() => {
-      login(values).then((data) => {
-        setSuccess(data.success);
-        setError(data.error);
-      });
-    });
-
-    setTimeout(() => {
       setError(""); // clear messages on submit
       setSuccess("");
-    }, 5000);
+
+      login(values)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+          }
+
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
+        })
+        .catch(() => setError("An unexpected error occurred."));
+    });
+
+    setTimeout(() => {}, 5000);
   };
 
   return (
