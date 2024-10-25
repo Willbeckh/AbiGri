@@ -35,9 +35,6 @@ export const RegisterForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    setError(""); // clear messages on submit
-    setSuccess("");
-
     startTransition(() => {
       register(values).then((data) => {
         setError(data.error);
@@ -45,6 +42,11 @@ export const RegisterForm = () => {
       });
     });
     form.reset();
+
+    setTimeout(() => {
+      setError(""); // clear messages on submit
+      setSuccess("");
+    }, 5000);
   };
 
   return (
@@ -116,6 +118,7 @@ export const RegisterForm = () => {
           <FormSuccess message={success} />
 
           <Button type="submit" disabled={isPending} className="w-full">
+            {isPending && <span className="loading loading-ring"></span>}
             Register
           </Button>
         </form>
