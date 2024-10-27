@@ -10,7 +10,7 @@ interface BackButtonProps {
 
 export const BackButton = ({ label, href }: BackButtonProps) => {
   return (
-    <Button variant="link" className="font-normal w-full" asChild>
+    <Button variant="link" className="font-normal p-0" asChild>
       <Link href={href} prefetch={true}>
         {label}
       </Link>

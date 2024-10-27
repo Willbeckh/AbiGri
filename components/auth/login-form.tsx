@@ -1,16 +1,15 @@
 "use client";
 
 import * as z from "zod";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { CardWrapper } from "./card-wrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LoginSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
+import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -21,9 +20,9 @@ import {
 } from "@/components/ui/form";
 
 export const LoginForm = () => {
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false); // Adds loading state
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -33,33 +32,34 @@ export const LoginForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    startTransition(() => {
-      setError(""); // clear messages on submit
-      setSuccess("");
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+    setServerError(null);
+    setIsLoading(true); // Set loading to true when submission starts
 
-      login(values)
-        .then((data) => {
-          if (data?.error) {
-            form.reset();
-            setError(data.error);
-          }
+    try {
+      const response = await login({
+        email: values.email,
+        password: values.password,
+      });
 
-          if (data?.success) {
-            form.reset();
-            setSuccess(data.success);
-          }
-        })
-        .catch(() => setError("An unexpected error occurred."));
-    });
-
-    setTimeout(() => {}, 5000);
+      if (response.error) {
+        setServerError(response.message ?? null);
+      } else {
+        // Redirect to the dashboard page
+        router.push("/dashboard");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      setServerError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false); // Set loading to false when submission ends
+    }
   };
 
   return (
     <CardWrapper
       headerLabel="Welcome back."
-      backButtonLabel="Don't have an account?"
+      backButtonLabel="Don't have an account? Sign up."
       backButtonHref="/auth/register"
       showSocial
     >
@@ -75,7 +75,7 @@ export const LoginForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={isLoading}
                       placeholder="john.doe@me.com"
                       type="email"
                     />
@@ -91,23 +91,20 @@ export const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="******"
-                      type="password"
-                    />
+                    <Input {...field} placeholder="******" type="password" />
+                    disabled={isLoading}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
+          {serverError && (
+            <p className="text-red-500 text-sm mt-2">{serverError}</p>
+          )}
 
-          <Button type="submit" disabled={isPending} className="w-full">
-            {isPending && <span className="loading loading-ring"></span>}
+          <Button type="submit" disabled={isLoading} className="w-full">
+            {isLoading && <span className="loading loading-ring"></span>}
             Login
           </Button>
         </form>

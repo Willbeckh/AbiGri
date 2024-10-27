@@ -30,18 +30,17 @@ export const CardWrapper = ({
       <CardHeader>
         <Header label={headerLabel} />
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      <CardContent>
+        {children}
 
-      <div className="divider w-4/5 mx-auto text-xs">Or sign in with</div>
+        <BackButton label={backButtonLabel} href={backButtonHref} />
+      </CardContent>
 
       {showSocial && (
         <CardFooter>
           <Social />
         </CardFooter>
       )}
-      <CardFooter>
-        <BackButton label={backButtonLabel} href={backButtonHref} />
-      </CardFooter>
     </Card>
   );
 };
