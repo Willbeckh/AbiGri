@@ -1,42 +1,49 @@
 "use server";
 import z from "zod";
 import { RegisterSchema } from "@/schemas";
-import bcrypt from "bcryptjs";
-import { db } from "@/lib/db";
+import { createClient } from "@/utils/supabase/server";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
 
   if (!validatedFields.success) {
     return {
-      error: "Invalid credentials!",
+      error: true,
+      message: validatedFields.error.issues[0]?.message ?? "An error occured",
     };
   }
 
   const { email, password, name } = validatedFields.data;
-  const hashedPassword = await bcrypt.hash(password, 10);
 
-  const existingUser = await db.user.findUnique({
-    where: {
-      email,
+  // Create user using Supabase Auth API
+  const supabase = await createClient();
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data, error: signUpError } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        name,
+      },
     },
   });
 
-  if (existingUser) {
+  if (signUpError) {
     return {
-      error: "Email already exists!",
+      error: true,
+      message: signUpError.message,
     };
   }
 
-  await db.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  });
+  // if (values.email ) {
+  // return {
+  //   error: true,
+  //   message: "Email already in use",
+  // };
+  // }
 
   return {
-    success: "Sign Up successful! Proceed to login.",
+    success: "Sign Up successful! Please very email.",
   };
 };
