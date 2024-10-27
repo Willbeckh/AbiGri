@@ -91,8 +91,12 @@ export const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="******" type="password" />
-                    disabled={isLoading}
+                    <Input
+                      {...field}
+                      placeholder="******"
+                      disabled={isLoading}
+                      type="password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
