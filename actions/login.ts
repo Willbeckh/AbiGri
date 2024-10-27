@@ -1,43 +1,52 @@
 "use server";
-import * as z from "zod";
-import { signIn } from "@/auth";
+import z from "zod";
 import { LoginSchema } from "@/schemas";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { AuthError } from "next-auth";
+import { createClient } from "@/utils/supabase/server";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-  const validatedFields = LoginSchema.safeParse(values);
+  const validatedFields = LoginSchema.safeParse({
+    ...values,
+  })
 
   if (!validatedFields.success) {
     return {
-      error: "Invalid credentials!",
+      error: true,
+      message:
+        validatedFields.error.issues[0]?.message ?? "An error occured",
     };
   }
+
   const { email, password } = validatedFields.data;
 
-  try {
-    await signIn("credentials", {
+  // supabase auth api
+    const supabase = await createClient();
+
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
 
-    return {
-      success: "Logged in successfully!",
-    };
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return {
-            error: "Invalid credentials!",
-          };
-        default:
-          return {
-            error: "An unexpected error occurred.",
-          };
+    if (signInError) {
+      return {
+        error: true,
+        message: signInError.message,
       }
     }
-    throw error;
-  }
+
+    if(!data.user){
+      return {
+        error: true,
+        message: "Login failed! Please try again.",
+      }
+    }
+    
+    return {
+      success: true,
+      message: "Login Successful",
+      user: {
+        id: data.user.id,
+        email: data.user.email,
+      }
+    };
+  
 };
