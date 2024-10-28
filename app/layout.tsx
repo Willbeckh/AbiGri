@@ -8,7 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "AbiGri",
-  description: "",
+  description: "Empowering Africa’s Farmers, One Smart Solution at a Time.",
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressContentEditableWarning={true}>
+    <html lang="en" suppressHydrationWarning>
       <body className="">
         <Analytics />
         <SpeedInsights />
