@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { login } from "@/actions/login";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/useAuthStore";
 import {
   Form,
   FormControl,
@@ -24,6 +25,8 @@ export const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false); // Adds loading state
   const router = useRouter();
 
+  const { login: setAuth } = useAuthStore();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -34,7 +37,7 @@ export const LoginForm = () => {
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setServerError(null);
-    setIsLoading(true); // Set loading to true when submission starts
+    setIsLoading(true);
 
     try {
       const response = await login({
@@ -45,14 +48,20 @@ export const LoginForm = () => {
       if (response.error) {
         setServerError(response.message ?? null);
       } else {
-        // Redirect to the dashboard page
-        router.push("/dashboard");
+        const userData = response.user;
+
+        if (userData) {
+          setAuth(userData);
+          router.push("/dashboard");
+        } else {
+          setServerError("User not available!");
+        }
       }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setServerError("An unexpected error occurred. Please try again.");
     } finally {
-      setIsLoading(false); // Set loading to false when submission ends
+      setIsLoading(false);
     }
   };
 
