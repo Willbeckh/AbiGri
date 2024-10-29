@@ -1,16 +1,15 @@
 "use client";
 
-import * as z from "zod";
-import { useState, useTransition } from "react";
+import z from "zod";
+import { useState } from "react";
 import { CardWrapper } from "./card-wrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { RegisterSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
 import { register } from "@/actions/register";
+import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -19,11 +18,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 export const RegisterForm = () => {
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -34,17 +34,24 @@ export const RegisterForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    setError(""); // clear messages on submit
-    setSuccess("");
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
+    setServerError(null);
+    setIsLoading(true);
 
-    startTransition(() => {
-      register(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
-      });
-    });
-    form.reset();
+    try {
+      const response = await register(values);
+
+      if (response.error) {
+        setServerError(response.message);
+      } else {
+        router.push("/confirm");
+      }
+    } catch (error) {
+      console.error(error);
+      setServerError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -52,7 +59,6 @@ export const RegisterForm = () => {
       headerLabel="Create account."
       backButtonLabel="Already have an account? Sign in."
       backButtonHref="/auth/login"
-      showSocial
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -66,7 +72,7 @@ export const RegisterForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={isLoading}
                       placeholder="John Doe"
                       type="text"
                     />
@@ -84,7 +90,7 @@ export const RegisterForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={isLoading}
                       placeholder="john.doe@me.com"
                       type="email"
                     />
@@ -102,7 +108,7 @@ export const RegisterForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={isLoading}
                       placeholder="******"
                       type="password"
                     />
@@ -112,11 +118,15 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
-
-          <Button type="submit" disabled={isPending} className="w-full">
-            Register
+          {serverError && (
+            <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive">
+              <ExclamationTriangleIcon className="w-4 h-4" />
+              {serverError}
+            </div>
+          )}
+          <Button type="submit" disabled={isLoading} className="w-full">
+            {isLoading && <span className="loading loading-ring"></span>}
+            SignUp
           </Button>
         </form>
       </Form>

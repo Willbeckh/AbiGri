@@ -157,7 +157,7 @@ const BookingForm = () => {
         <div className="text-center">
           <Button
             type="submit"
-            className="btn-md btn-block  bg-button hover:btn-outline cursor-pointer hover:btn-success"
+            className=" bg-button hover:btn-outline cursor-pointer hover:btn-success"
           >
             Book Tour
           </Button>

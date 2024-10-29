@@ -7,7 +7,7 @@ export interface MenuItem {
 
 export const menuItems: MenuItem[] = [
   { title: "Home", path: "/" },
-  { title: "Shop", path: "/products" },
+  { title: "Products", path: "/products" },
   {
     title: "About Us",
     path: "/about",
