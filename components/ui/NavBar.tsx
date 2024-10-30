@@ -1,16 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuthStore } from "@/stores/useAuthStore";
 import LoginButton from "@/components/auth/login-button";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/Modal";
 import { ComingSoon } from "@/components/ui/ComingSoon";
 import { MenuItem } from "@/data/menuData";
-import { createClient } from "@/utils/supabase/client";
-import { User } from "@supabase/supabase-js";
-import { Profile } from "../Profile";
+import { Profile } from "@/components/Profile";
 
 interface NavBarProps {
   menuItems: MenuItem[];
@@ -18,32 +17,7 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
   const [showModal, setShowModal] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
-  const supabase = createClient(); // initialize supabase outside component
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      console.log("Current User: ", data.user);
-      setUser(data.user);
-    };
-
-    fetchUser();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        const currentUser = session?.user || null;
-        setUser((prevUser) =>
-          prevUser !== currentUser ? currentUser : prevUser
-        );
-      }
-    );
-
-    return () => {
-      authListener?.subscription.unsubscribe();
-    };
-  }, [supabase.auth]);
+  const isAuthenticated  = useAuthStore((state) => state.isAuthenticated);
 
   return (
     <div className="navbar sticky top-4 mx-auto z-[1] bg-white text-black shadow rounded-xl w-11/12">
@@ -144,11 +118,11 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
           <ComingSoon />
         </Modal>
 
-        {user ? (
+        {isAuthenticated ? (
           <Profile />
         ) : (
           <LoginButton>
-            <Button className="bg-green-500 hover:bg-green-600">SignIn</Button>
+            <Button className="bg-green-500 hover:bg-green-600">Sign In</Button>
           </LoginButton>
         )}
       </div>

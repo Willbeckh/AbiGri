@@ -3,7 +3,7 @@
 import {Button} from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { bookingFormSchema } from "@/utils/validation/bookingForm";
+import { bookingFormSchema } from "@/schemas/bookingForm";
 import {
   HiUser,
   HiCalendar,
