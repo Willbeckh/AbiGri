@@ -12,7 +12,7 @@ export default async function Dashboard() {
     <>
       <div>Dashboard</div>
       <br />
-      <p>Hello {data.user.email}</p>
+      <p>Hello {data.user.user_metadata.full_name}</p>
       <br />
     </>
   );
