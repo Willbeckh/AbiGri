@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/Modal";
 import { ComingSoon } from "@/components/ui/ComingSoon";
 import { MenuItem } from "@/data/menuData";
-import { Profile } from "@/components/Profile";
+import { Profile } from "@/components/dashboard/profile-nav";
 
 interface NavBarProps {
   menuItems: MenuItem[];
@@ -17,7 +17,7 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
   const [showModal, setShowModal] = useState(false);
-  const isAuthenticated  = useAuthStore((state) => state.isAuthenticated);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   return (
     <div className="navbar sticky top-4 mx-auto z-[1] bg-white text-black shadow rounded-xl w-11/12">
@@ -39,6 +39,7 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
               />
             </svg>
           </div>
+          {/* small screen dropdown menu */}
           <ul
             tabIndex={0}
             className="menu dropdown-content bg-base-100 rounded-b-xl z-[1] ms-1 mt-3 w-52 p-2"
@@ -122,7 +123,7 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
           <Profile />
         ) : (
           <LoginButton>
-            <Button className="bg-green-500 hover:bg-green-600">Sign In</Button>
+            <Button className="bg-green-500 hover:bg-green-600">Login</Button>
           </LoginButton>
         )}
       </div>
