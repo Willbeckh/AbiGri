@@ -49,7 +49,7 @@ export const LoginForm = () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       setAuth(userData);
-      router.push("/products");
+      router.push("/dashboard");
     } else {
       setServerError("User not available!");
     }

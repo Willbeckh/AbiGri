@@ -5,6 +5,7 @@ import Footer from "./footer/page";
 import { menuItems } from "../data/menuData";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "AbiGri",
@@ -23,6 +24,7 @@ export default function RootLayout({
         <SpeedInsights />
         <NavBar menuItems={menuItems} />
         <main className="-mt-[74px] ">{children}</main>
+        <Toaster />
         <Footer />
       </body>
     </html>

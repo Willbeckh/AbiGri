@@ -1,23 +1,20 @@
 // pages/privacy.js
 
-import Head from "next/head";
+import { Metadata } from "next";
 import { Lock } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "AbiGri's Data Privacy Policy",
+};
 
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-green-50 px-4 sm:px-6 lg:px-8 pt-28">
-      <Head>
-        <title>Privacy Policy</title>
-        <meta
-          name="description"
-          content="Privacy policy for https://abigri.com"
-        />
-      </Head>
-
-      <div className=" w-9/12 mx-auto">
+      <div className="md:w-9/12 mx-auto">
         <div className="flex items-center justify-center mb-4">
           <Lock size={32} color="green" />
-          <h1 className="text-3xl font-bold text-center ml-2">
+          <h1 className="md:text-3xl text-xl font-bold text-center ml-2">
             Privacy Policy
           </h1>
         </div>

@@ -2,7 +2,7 @@ import React from "react";
 import { supabase } from "@/utils/supabaseClient";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaExclamationTriangle } from "react-icons/fa";
 
 const Products = async () => {
   const { data: products, error } = await supabase
@@ -13,10 +13,11 @@ const Products = async () => {
     return <p>Failed to fetch data</p>;
   }
 
-  if (!products) {
+  if (!products || products.length === 0) {
     return (
-      <div className="loading loading-dots">
-        <p>Loading products data</p>
+      <div className="h-screen flex flex-col gap-4 justify-center items-center">
+        <FaExclamationTriangle className="text-red-500 text-5xl" />
+        <p>No products at the moment. Check back later.</p>
       </div>
     );
   }

@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 import { createClient } from "@/utils/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -31,6 +32,25 @@ export const Social = () => {
       if (error) {
         throw error;
       }
+
+      // update state
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
+      if (sessionError) {
+        throw sessionError;
+      }
+
+      // ensure session is availabel
+      const userData = {
+        id: session?.user.id ?? "",
+        email: session?.user.email ?? "",
+      };
+
+      // update state(zustand store) with user info
+      useAuthStore.getState().login(userData);
     } catch (error) {
       console.error(error);
       toast({
@@ -38,9 +58,9 @@ export const Social = () => {
         description: "There was an error signing in.",
         variant: "destructive",
       });
+    } finally {
+      setIsGoogleLoading(false);
     }
-
-    setIsGoogleLoading(false);
   }
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "lucide-react";
+import { User, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LogoutButton from "@/components/Logout";
 import Link from "next/link";
@@ -17,17 +17,17 @@ export function Profile() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="rounded-full">
+        <Button variant="outline" className="rounded-full bg-green-300">
           <User />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
+      <DropdownMenuContent align="end" className="w-40" forceMount>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild className="cursor-pointer">
           <Link href="/dashboard">
-            <User className="mr-2 h-4 w-4" />
-            Dashboard
+            <LayoutDashboard className="mr-2 h-4 w-4" />
+            Farm Dashboard
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

@@ -9,13 +9,13 @@ const ProductHighlights = async () => {
     .eq("featured", true);
 
   if (error) {
-    return <p>Failed to fetch data</p>;
+    return <p>Failed to fetch data!</p>;
   }
 
-  if (!featuredProducts) {
+  if (!featuredProducts || featuredProducts.length === 0) {
     return (
-      <div className="loading loading-dots">
-        <p>Loading products data</p>
+      <div className="h-screen flex justify-center items-center">
+        <p>Check back some other time to view our featured products.</p>
       </div>
     );
   }
@@ -52,4 +52,3 @@ const ProductHighlights = async () => {
 };
 
 export default ProductHighlights;
-
