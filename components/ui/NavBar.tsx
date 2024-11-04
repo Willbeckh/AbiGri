@@ -17,13 +17,22 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
   const [showModal, setShowModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <div className="navbar sticky top-4 mx-auto z-[1] bg-white text-black shadow rounded-xl w-11/12">
       <div className="navbar-start">
-        <div className="dropdown font-bold">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+        <div className="dropdown font-bold ">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost lg:hidden"
+            onClick={toggleMenu}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -40,34 +49,44 @@ const NavBar: React.FC<NavBarProps> = ({ menuItems }) => {
             </svg>
           </div>
           {/* small screen dropdown menu */}
-          <ul
-            tabIndex={0}
-            className="menu dropdown-content bg-base-100 rounded-b-xl z-[1] ms-1 mt-3 w-52 p-2"
-          >
-            {menuItems &&
-              menuItems.map((item, index) => (
-                <li key={index}>
-                  {item.subMenu ? (
-                    <>
-                      <a>{item.title}</a>
-                      <ul className="p-2">
-                        {item.subMenu.map((subItem, subIndex) => (
-                          <li key={subIndex}>
-                            <Link href={subItem.path} prefetch={true}>
-                              {subItem.title}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  ) : (
-                    <Link href={item.path as string} prefetch={true}>
-                      {item.title}
-                    </Link>
-                  )}
-                </li>
-              ))}
-          </ul>
+          {isOpen && (
+            <ul
+              tabIndex={0}
+              className="menu dropdown-content bg-base-100 rounded-b-xl z-[1] ms-1 mt-3 w-52 p-2"
+            >
+              {menuItems &&
+                menuItems.map((item, index) => (
+                  <li key={index}>
+                    {item.subMenu ? (
+                      <>
+                        <a>{item.title}</a>
+                        <ul className="p-2">
+                          {item.subMenu.map((subItem, subIndex) => (
+                            <li key={subIndex}>
+                              <Link
+                                href={subItem.path}
+                                prefetch={true}
+                                onClick={closeMenu}
+                              >
+                                {subItem.title}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : (
+                      <Link
+                        href={item.path as string}
+                        prefetch={true}
+                        onClick={closeMenu}
+                      >
+                        {item.title}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+            </ul>
+          )}
         </div>
         <Link href="/" className="cursor-pointer text-xl">
           <div>
