@@ -1,6 +1,6 @@
 import React from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { DashboardNav } from "@/components/dashboard/nav";
+import { DashboardNav } from "@/components/dashboard/sidebar";
 
 const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
