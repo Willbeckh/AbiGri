@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AvatarIcon } from "@radix-ui/react-icons";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { User2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,8 +34,11 @@ export function UserProfile({
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const showToast = (message: string) => {
-    toast({ description: message });
+  const showToast = (
+    message: string,
+    state: "default" | "destructive" | "success"
+  ) => {
+    toast({ description: message, variant: state });
   };
 
   const handleSave = async () => {
@@ -50,7 +53,7 @@ export function UserProfile({
 
       if (error) throw error;
 
-      showToast("Success, Profile data updated!");
+      showToast("Success, Profile data updated!", "success");
     } catch (error) {
       console.error("Update failed", error);
     } finally {
@@ -63,8 +66,9 @@ export function UserProfile({
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Avatar className="h-20 w-20">
+          <AvatarImage src={profile.avatar_url} alt="user avatar" />
           <AvatarFallback>
-            <AvatarIcon fontSize={24} />
+            <User2 />
           </AvatarFallback>
         </Avatar>
         <div className="overflow-hidden">
