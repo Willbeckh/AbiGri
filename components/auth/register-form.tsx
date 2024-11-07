@@ -44,7 +44,7 @@ export const RegisterForm = () => {
       if (response.error) {
         setServerError(response.message);
       } else {
-        router.push("/confirm");
+        router.push("/auth/login");
       }
     } catch (error) {
       console.error(error);
